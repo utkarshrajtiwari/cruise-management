@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cruise Ship Management System</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header Section -->
+      <div class="header">
+        <h1><i class="fas fa-ship"></i> Cruise Ship Management</h1>
+        <p>Welcome aboard! Your voyage experience starts here</p>
+      </div>
+
+      <!-- Authentication Container -->
+      <div id="authContainer" class="auth-container">
+        <div class="role-selector">
+          <button class="role-btn active" onclick="selectRole('voyager')">
+            <i class="fas fa-user"></i> Voyager
+          </button>
+          <button class="role-btn" onclick="selectRole('admin')">
+            <i class="fas fa-user-shield"></i> Admin
+          </button>
+          <button class="role-btn" onclick="selectRole('manager')">
+            <i class="fas fa-user-tie"></i> Manager
+          </button>
+          <button class="role-btn" onclick="selectRole('head-cook')">
+            <i class="fas fa-chef-hat"></i> Head Cook
+          </button>
+          <button class="role-btn" onclick="selectRole('supervisor')">
+            <i class="fas fa-user-cog"></i> Supervisor
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit" class="btn">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="showRegister()"
+          >
+            <i class="fas fa-user-plus"></i> Register as Voyager
+          </button>
+        </form>
+
+        <!-- Registration Form -->
+        <form id="registerForm" class="login-form" style="display: none">
+          <h3>Register as Voyager</h3>
+          <div class="form-group">
+            <label for="regUsername">Username</label>
+            <input type="text" id="regUsername" name="regUsername" required />
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Password</label>
+            <input
+              type="password"
+              id="regPassword"
+              name="regPassword"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email</label>
+            <input type="email" id="regEmail" name="regEmail" required />
+          </div>
+          <button type="submit" class="btn">
+            <i class="fas fa-user-plus"></i> Register
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="showLogin()">
+            <i class="fas fa-arrow-left"></i> Back to Login
+          </button>
+        </form>
+      </div>
+
+      <!-- Voyager Dashboard -->
+      <div id="voyagerDashboard" class="dashboard">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">Voyager Dashboard</h2>
+          <div class="user-info">
+            <span id="welcomeUser">Welcome, Voyager!</span>
+            <button class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card" onclick="openModal('cateringModal')">
+            <i class="fas fa-utensils"></i>
+            <h3>Order Catering</h3>
+            <p>Food, beverages, and snacks</p>
+          </div>
+          <div class="card" onclick="openModal('stationeryModal')">
+            <i class="fas fa-pencil-ruler"></i>
+            <h3>Order Stationery</h3>
+            <p>Gifts, chocolates, tale books</p>
+          </div>
+          <div class="card" onclick="openModal('movieModal')">
+            <i class="fas fa-film"></i>
+            <h3>Resort-Movie Tickets</h3>
+            <p>Book movie tickets</p>
+          </div>
+          <div class="card" onclick="openModal('beautyModal')">
+            <i class="fas fa-spa"></i>
+            <h3>Beauty Salon</h3>
+            <p>Book beauty services</p>
+          </div>
+          <div class="card" onclick="openModal('fitnessModal')">
+            <i class="fas fa-dumbbell"></i>
+            <h3>Fitness Center</h3>
+            <p>Book gym time and equipment</p>
+          </div>
+          <div class="card" onclick="openModal('partyModal')">
+            <i class="fas fa-birthday-cake"></i>
+            <h3>Party Hall</h3>
+            <p>Book party hall for events</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Dashboard -->
+      <div id="adminDashboard" class="dashboard">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">Admin Dashboard</h2>
+          <div class="user-info">
+            <span>Welcome, Admin!</span>
+            <button class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card" onclick="openModal('addItemModal')">
+            <i class="fas fa-plus"></i>
+            <h3>Add Item</h3>
+            <p>Add new menu items</p>
+          </div>
+          <div class="card" onclick="openModal('manageItemsModal')">
+            <i class="fas fa-edit"></i>
+            <h3>Manage Items</h3>
+            <p>Edit/Delete existing items</p>
+          </div>
+          <div class="card" onclick="openModal('menuModal')">
+            <i class="fas fa-list"></i>
+            <h3>Maintain Menu</h3>
+            <p>Organize menu categories</p>
+          </div>
+          <div class="card" onclick="openModal('voyagerRegModal')">
+            <i class="fas fa-users"></i>
+            <h3>Voyager Registration</h3>
+            <p>Manage voyager accounts</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manager Dashboard -->
+      <div id="managerDashboard" class="dashboard">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">Manager Dashboard</h2>
+          <div class="user-info">
+            <span>Welcome, Manager!</span>
+            <button class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card" onclick="viewBookings('movie')">
+            <i class="fas fa-film"></i>
+            <h3>Movie Bookings</h3>
+            <p>View booked movie tickets</p>
+          </div>
+          <div class="card" onclick="viewBookings('beauty')">
+            <i class="fas fa-spa"></i>
+            <h3>Beauty Salon Bookings</h3>
+            <p>View beauty salon bookings</p>
+          </div>
+          <div class="card" onclick="viewBookings('fitness')">
+            <i class="fas fa-dumbbell"></i>
+            <h3>Fitness Center Bookings</h3>
+            <p>View fitness center bookings</p>
+          </div>
+          <div class="card" onclick="viewBookings('party')">
+            <i class="fas fa-birthday-cake"></i>
+            <h3>Party Hall Bookings</h3>
+            <p>View party hall bookings</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Head Cook Dashboard -->
+      <div id="headcookDashboard" class="dashboard">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">Head Cook Dashboard</h2>
+          <div class="user-info">
+            <span>Welcome, Head Cook!</span>
+            <button class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card" onclick="viewOrders('catering')">
+            <i class="fas fa-utensils"></i>
+            <h3>Catering Orders</h3>
+            <p>View and manage food orders</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supervisor Dashboard -->
+      <div id="supervisorDashboard" class="dashboard">
+        <div class="dashboard-header">
+          <h2 class="dashboard-title">Supervisor Dashboard</h2>
+          <div class="user-info">
+            <span>Welcome, Supervisor!</span>
+            <button class="logout-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="card" onclick="viewOrders('stationery')">
+            <i class="fas fa-pencil-ruler"></i>
+            <h3>Stationery Orders</h3>
+            <p>View and manage stationery orders</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
+
+    <!-- Catering Modal -->
+    <div id="cateringModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-utensils"></i> Order Catering</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="menu-categories">
+            <button class="category-btn active" onclick="showCategory('food')">
+              Food
+            </button>
+            <button class="category-btn" onclick="showCategory('beverages')">
+              Beverages
+            </button>
+            <button class="category-btn" onclick="showCategory('snacks')">
+              Snacks
+            </button>
+          </div>
+          <div id="menuItems" class="menu-items"></div>
+          <div class="cart">
+            <h4>Your Order</h4>
+            <div id="cartItems"></div>
+            <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
+            <button class="btn" onclick="placeOrder('catering')">
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stationery Modal -->
+    <div id="stationeryModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-pencil-ruler"></i> Order Stationery</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="stationery-items"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Movie Modal -->
+    <div id="movieModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-film"></i> Book Movie Tickets</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="booking-form">
+            <h4>Available Movies - Click to Select</h4>
+            <div class="movie-list">
+              <div
+                class="movie-item selectable-item"
+                onclick="selectMovie('Ocean Adventure', '8:00 PM')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Ocean Adventure</h5>
+                <p>Show Time: 8:00 PM</p>
+                <p>Duration: 2 hours</p>
+                <p class="item-price">Price: $15</p>
+              </div>
+              <div
+                class="movie-item selectable-item"
+                onclick="selectMovie('Cruise Dreams', '6:00 PM')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Cruise Dreams</h5>
+                <p>Show Time: 6:00 PM</p>
+                <p>Duration: 1.5 hours</p>
+                <p class="item-price">Price: $15</p>
+              </div>
+              <div
+                class="movie-item selectable-item"
+                onclick="selectMovie('Sea Adventures', '10:00 PM')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Sea Adventures</h5>
+                <p>Show Time: 10:00 PM</p>
+                <p>Duration: 2.5 hours</p>
+                <p class="item-price">Price: $18</p>
+              </div>
+            </div>
+            <div class="selection-info">
+              <p id="movieSelection">👆 Please select a movie above</p>
+            </div>
+            <button
+              class="btn"
+              onclick="bookMovie()"
+              id="bookMovieBtn"
+              disabled
+            >
+              <i class="fas fa-ticket-alt"></i> Book Selected Movie
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beauty Modal -->
+    <div id="beautyModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-spa"></i> Book Beauty Salon</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="booking-form">
+            <h4>Beauty Services - Click to Select</h4>
+            <div class="service-list">
+              <div
+                class="service-item selectable-item"
+                onclick="selectService('Full Spa Package', '2 hours', '$80')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Full Spa Package</h5>
+                <p>Duration: 2 hours</p>
+                <p>Includes: Massage, Facial, Manicure</p>
+                <p class="item-price">Price: $80</p>
+              </div>
+              <div
+                class="service-item selectable-item"
+                onclick="selectService('Hair & Makeup', '1 hour', '$50')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Hair & Makeup</h5>
+                <p>Duration: 1 hour</p>
+                <p>Professional styling service</p>
+                <p class="item-price">Price: $50</p>
+              </div>
+              <div
+                class="service-item selectable-item"
+                onclick="selectService('Relaxation Massage', '45 minutes', '$60')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Relaxation Massage</h5>
+                <p>Duration: 45 minutes</p>
+                <p>Full body therapeutic massage</p>
+                <p class="item-price">Price: $60</p>
+              </div>
+            </div>
+            <div class="selection-info">
+              <p id="serviceSelection">👆 Please select a service above</p>
+            </div>
+            <button
+              class="btn"
+              onclick="bookBeautySalon()"
+              id="bookBeautyBtn"
+              disabled
+            >
+              <i class="fas fa-spa"></i> Book Selected Service
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fitness Modal -->
+    <div id="fitnessModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-dumbbell"></i> Book Fitness Center</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="booking-form">
+            <h4>Fitness Equipment - Click to Select</h4>
+            <div class="equipment-list">
+              <div
+                class="equipment-item selectable-item"
+                onclick="selectEquipment('Cardio Suite', '1 hour', '$20')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Cardio Suite</h5>
+                <p>Duration: 1 hour</p>
+                <p>Treadmills, Bikes, Elliptical</p>
+                <p class="item-price">Price: $20</p>
+              </div>
+              <div
+                class="equipment-item selectable-item"
+                onclick="selectEquipment('Weight Training', '1 hour', '$25')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Weight Training</h5>
+                <p>Duration: 1 hour</p>
+                <p>Free weights & machines</p>
+                <p class="item-price">Price: $25</p>
+              </div>
+              <div
+                class="equipment-item selectable-item"
+                onclick="selectEquipment('Swimming Pool', '1 hour', '$15')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Swimming Pool</h5>
+                <p>Duration: 1 hour</p>
+                <p>Olympic size pool access</p>
+                <p class="item-price">Price: $15</p>
+              </div>
+            </div>
+            <div class="selection-info">
+              <p id="equipmentSelection">👆 Please select equipment above</p>
+            </div>
+            <button
+              class="btn"
+              onclick="bookFitnessCenter()"
+              id="bookFitnessBtn"
+              disabled
+            >
+              <i class="fas fa-dumbbell"></i> Book Selected Equipment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Party Modal -->
+    <div id="partyModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-birthday-cake"></i> Book Party Hall</h3>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="booking-form">
+            <h4>Party Halls - Click to Select</h4>
+            <div class="hall-list">
+              <div
+                class="hall-item selectable-item"
+                onclick="selectHall('Grand Ballroom', '20 guests', '$200')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Grand Ballroom</h5>
+                <p>Capacity: 20 guests</p>
+                <p>Perfect for large celebrations</p>
+                <p class="item-price">Price: $200/hour</p>
+              </div>
+              <div
+                class="hall-item selectable-item"
+                onclick="selectHall('Intimate Lounge', '10 guests', '$100')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Intimate Lounge</h5>
+                <p>Capacity: 10 guests</p>
+                <p>Cozy space for small gatherings</p>
+                <p class="item-price">Price: $100/hour</p>
+              </div>
+              <div
+                class="hall-item selectable-item"
+                onclick="selectHall('Ocean View Deck', '15 guests', '$150')"
+              >
+                <div class="selection-indicator">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <h5>Ocean View Deck</h5>
+                <p>Capacity: 15 guests</p>
+                <p>Outdoor space with ocean view</p>
+                <p class="item-price">Price: $150/hour</p>
+              </div>
+            </div>
+            <div class="selection-info">
+              <p id="hallSelection">👆 Please select a hall above</p>
+            </div>
+            <button
+              class="btn"
+              onclick="bookPartyHall()"
+              id="bookPartyBtn"
+              disabled
+            >
+              <i class="fas fa-birthday-cake"></i> Book Selected Hall
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
